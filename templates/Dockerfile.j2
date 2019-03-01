@@ -30,6 +30,10 @@ WORKDIR /usr/share/kibana
 # and allows Kibana to run with an uid
 RUN curl -Ls {{ url_root }}/{{ tarball }} | tar --strip-components=1 -zxf - && \
     ln -s /usr/share/kibana /opt/kibana && \
+    cd node/bin && \
+    curl -Ls https://nodejs.org/dist/v8.11.4/node-v8.11.4-linux-arm64.tar.xz | \
+    tar -xJf - node-v8.11.4-linux-arm64/bin/node --strip-components=2 --overwrite && \
+    cd - && \
     chown -R 1000:0 . && \
     chmod -R g=u /usr/share/kibana && \
     find /usr/share/kibana -type d -exec chmod g+s {} \;
